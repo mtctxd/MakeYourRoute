@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface AppStateInterface {
     value: number,
+    location: any
 }
 
 const initialState: AppStateInterface = {
     value: 0,
+    location: null,
 }
 
 export const appSlice = createSlice({
@@ -14,8 +16,11 @@ export const appSlice = createSlice({
     reducers: {
         increment: state => {
             state.value += 1;
+        },
+        setLocation: (state, action) => {
+            state.location = action.payload;
         }
     }
 });
 
-export const { increment } = appSlice.actions;
+export const { increment, setLocation } = appSlice.actions;

@@ -1,50 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {v4 as uuid} from 'uuid';
 
 interface Coords {
     lat: number | null,
     lng: number | null,
 }
 
-interface RouteNode {
-    text: string,
-    coords: Coords
-}
-
 interface AppStateInterface {
-    value: number,
     location: Coords,
-    route: any[]
+    routeInput: {
+        [key: number]: string
+    }
 }
 
 const initialState: AppStateInterface = {
-    value: 0,
     location: {
         lat: null,
         lng: null,
     },
-    route: ['asd', null]
+    routeInput: {
+        [uuid()]: '',
+        [uuid()]: ''
+    },
 }
 
 export const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        increment: state => {
-            state.value += 1;
-        },
         setLocation: (state, action) => {
             state.location = action.payload;
         },
         inputHandler: (state, action) => {
-            state.route[action.payload.index] = action.payload.text
+            state.routeInput = {
+                ...state.routeInput,
+                [action.payload.index]: action.payload.text,
+            }
         },
-        addNodeToRoute: state => {
-            state.route = [
-                ...state.route,
-                null
-            ];
+        addNodeToRouteInput: state => {
+            const arrayFromRouteInputObject = Object.values(state.routeInput);
+            if (arrayFromRouteInputObject.every(item => item)) {
+                state.routeInput = {
+                    ...state.routeInput,
+                    [uuid()]: ''
+                }
+            }
         },
     }
 });
 
-export const { increment, setLocation, inputHandler, addNodeToRoute } = appSlice.actions;
+export const { setLocation, inputHandler, addNodeToRouteInput } = appSlice.actions;

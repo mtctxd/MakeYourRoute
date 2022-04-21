@@ -3,15 +3,20 @@ import './App.css';
 import { useEffect, useRef } from 'react';
 
 import useGetCurrentLocation from './hooks/useGetCurrentLocation';
-import { addNodeToRoute, inputHandler, setLocation } from './redux/appSlice';
+import {
+  addNodeToRouteInput,
+  inputHandler,
+  setLocation,
+} from './redux/appSlice';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import MapRouting from './components/MapRouting';
+import { getLocationPointsForInput } from './features/getLocationPointsForInput';
 
 const App = () => {
   const leafletMap = useRef<any>();
   const location = useGetCurrentLocation();
-  const { route } = useAppSelector((state) => state.appSlice);
+  const { routeInput } = useAppSelector((state) => state.appSlice);
 
   const dispatch = useAppDispatch();
 
@@ -19,40 +24,57 @@ const App = () => {
     dispatch(setLocation(location));
   }, [location]);
 
-  const addNode = () => {
-    dispatch(addNodeToRoute());
+  useEffect(() => {
+    getLocationPointsForInput('lviv');
+  }, []);
+
+  const handleInputFieldOnChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: string
+  ) => {
+    dispatch(
+      inputHandler({
+        index,
+        text: event.target.value,
+      })
+    );
   };
 
-  // console.log(import.meta.env.VITE_HERE_API_KEY);
-  console.log(leafletMap.current);
+  // https://nominatim.openstreetmap.org/search?format=json&limit=3&q=lutsk
+
+  const addNode = () => {
+    dispatch(addNodeToRouteInput());
+  };
 
   return (
     <div className="app">
       <div className="app__interface">
         <div className="app__route-info">
-          <a href="#" className="app__route-info-link">info</a>
+          <a href="#" className="app__route-info-link">
+            info
+          </a>
         </div>
         <div className="app__route-price">
-          <a href="#" className="app__route-price-link">price</a>
+          <a href="#" className="app__route-price-link">
+            price
+          </a>
         </div>
         <div className="app__form">
-          <button
-            onClick={addNode}
-          >
-            +
-          </button>
-          {route.map((item, index) => (
-            <input 
-              type="text"
-              value={item}
-              onChange={(event) => {
-                dispatch(inputHandler({
-                  index,
-                  text: event.target.value,
-                }))
-              }}
-            />
+          {Object.entries(routeInput).map(([key, value]) => (
+            <div key={key}>
+              <input
+                type="text"
+                value={value}
+                onChange={(event) => {
+                  handleInputFieldOnChange(event, key);
+                  getLocationPointsForInput(event.target.value).then((res) =>
+                    console.log(res)
+                  );
+                }}
+              />
+            </div>
           ))}
+          <button onClick={addNode}>+</button>
         </div>
       </div>
 
@@ -70,12 +92,7 @@ const App = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[51.505, -0.09]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
-          <MapRouting map={leafletMap} />
+          <MapRouting />
         </MapContainer>
       </div>
     </div>

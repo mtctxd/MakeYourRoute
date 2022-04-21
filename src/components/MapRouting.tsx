@@ -9,8 +9,6 @@ const createRoutineMachineLayer = () => {
     waypoints: [
       L.latLng(33.52001088075479, 36.26829385757446),
       L.latLng(33.50546582848033, 36.29547681726967),
-      // (L as any).Routing.waypoint(null,"12 Morning Star place, Auckland"),
-      // (L as any).Routing.waypoint(null,"198 Dominion road, Mount Roskill, Auckland")
     ],
     lineOptions: {
       styles: [{ color: "#6FA1EC", weight: 4 }]
@@ -26,9 +24,6 @@ const createRoutineMachineLayer = () => {
   return instance;
 };
 
-
-
 const MapRouting = createControlComponent(createRoutineMachineLayer);
-console.log(MapRouting);
 
 export default MapRouting;

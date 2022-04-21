@@ -1,6 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface AppStateInterface {
+    value: number,
+    location: any,
+    input: {
+        find: string,
+    }
+}
+
+const initialState: AppStateInterface = {
     value: 0,
     location: null,
     input: {

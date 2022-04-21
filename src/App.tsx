@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import useGetCurrentLocation from './hooks/useGetCurrentLocation';
 import {
@@ -13,20 +13,38 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import MapRouting from './components/MapRouting';
 import { getLocationPointsForInput } from './features/getLocationPointsForInput';
 
+
+export interface Adress {
+	place_id: number;
+	licence: string;
+	osm_type: string;
+	osm_id: number;
+	boundingbox: string[];
+	lat: string;
+	lon: string;
+	display_name: string;
+	class: string;
+	type: string;
+	importance: number;
+	icon: string;
+}
+
+interface FetchedAdress {
+  key: string,
+  info: Adress[]
+}
+
 const App = () => {
   const leafletMap = useRef<any>();
   const location = useGetCurrentLocation();
   const { routeInput } = useAppSelector((state) => state.appSlice);
+  const [fetchedAdresses, setFetchedAdresses] = useState<FetchedAdress>({key: '', info: []});
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setLocation(location));
   }, [location]);
-
-  useEffect(() => {
-    getLocationPointsForInput('lviv');
-  }, []);
 
   const handleInputFieldOnChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -61,17 +79,28 @@ const App = () => {
         </div>
         <div className="app__form">
           {Object.entries(routeInput).map(([key, value]) => (
-            <div key={key}>
+            <div key={key} className={`${fetchedAdresses.key === key && 'app_form-input-container'}`}>
               <input
                 type="text"
                 value={value}
                 onChange={(event) => {
                   handleInputFieldOnChange(event, key);
-                  getLocationPointsForInput(event.target.value).then((res) =>
-                    console.log(res)
+                  getLocationPointsForInput(
+                    event.target.value,
+                    setFetchedAdresses,
+                    key,
                   );
                 }}
               />
+              {fetchedAdresses.key === key && (
+                <div className='app_form-input-dropdown'>
+                  {fetchedAdresses.info.map((item) => (
+                  <div className='app_form-input-dropdown-item'>
+                    {item.display_name}
+                  </div>
+                ))}
+                </div>
+              )}
             </div>
           ))}
           <button onClick={addNode}>+</button>

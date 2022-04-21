@@ -2,8 +2,6 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-
-
 }
 
 .app__interface {
@@ -15,4 +13,16 @@
 .leaflet-container {
   width: 100%;
   height: 100%;
+}
+
+.app_form-input-container {
+  position: relative;
+}
+
+.app_form-input-dropdown {
+  position: absolute;
+}
+
+.app_form-input-dropdown-item {
+  background-color: green;
 }

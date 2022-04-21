@@ -1,19 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface Coords {
+    lat: number | null,
+    lng: number | null,
+}
+
+interface RouteNode {
+    text: string,
+    coords: Coords
+}
+
 interface AppStateInterface {
     value: number,
-    location: any,
-    input: {
-        find: string,
-    }
+    location: Coords,
+    route: any[]
 }
 
 const initialState: AppStateInterface = {
     value: 0,
-    location: null,
-    input: {
-        find: '',
-    }
+    location: {
+        lat: null,
+        lng: null,
+    },
+    route: ['asd', null]
 }
 
 export const appSlice = createSlice({
@@ -27,9 +36,15 @@ export const appSlice = createSlice({
             state.location = action.payload;
         },
         inputHandler: (state, action) => {
-            state.input.find = action.payload
-        }
+            state.route[action.payload.index] = action.payload.text
+        },
+        addNodeToRoute: state => {
+            state.route = [
+                ...state.route,
+                null
+            ];
+        },
     }
 });
 
-export const { increment, setLocation, inputHandler } = appSlice.actions;
+export const { increment, setLocation, inputHandler, addNodeToRoute } = appSlice.actions;

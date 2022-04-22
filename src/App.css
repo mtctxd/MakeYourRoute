@@ -25,4 +25,10 @@
 
 .app_form-input-dropdown-item {
   background-color: green;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.app_form-input-dropdown-item:hover {
+  opacity: 1;
 }

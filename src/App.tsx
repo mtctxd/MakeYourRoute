@@ -4,41 +4,45 @@ import { useEffect, useRef, useState } from 'react';
 
 import useGetCurrentLocation from './hooks/useGetCurrentLocation';
 import {
+  addCoordinatesOnOnClick,
+  addCoordinatesOnOnEnter,
   addNodeToRouteInput,
   inputHandler,
   setLocation,
 } from './redux/appSlice';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import MapRouting from './components/MapRouting';
 import { getLocationPointsForInput } from './features/getLocationPointsForInput';
 
-
 export interface Adress {
-	place_id: number;
-	licence: string;
-	osm_type: string;
-	osm_id: number;
-	boundingbox: string[];
-	lat: string;
-	lon: string;
-	display_name: string;
-	class: string;
-	type: string;
-	importance: number;
-	icon: string;
+  place_id: number;
+  licence: string;
+  osm_type: string;
+  osm_id: number;
+  boundingbox: string[];
+  lat: string;
+  lon: string;
+  display_name: string;
+  class: string;
+  type: string;
+  importance: number;
+  icon: string;
 }
 
 interface FetchedAdress {
-  key: string,
-  info: Adress[]
+  key: string;
+  info: Adress[];
 }
 
 const App = () => {
   const leafletMap = useRef<any>();
   const location = useGetCurrentLocation();
   const { routeInput } = useAppSelector((state) => state.appSlice);
-  const [fetchedAdresses, setFetchedAdresses] = useState<FetchedAdress>({key: '', info: []});
+  const [fetchedAdresses, setFetchedAdresses] = useState<FetchedAdress>({
+    key: '',
+    info: [],
+  });
 
   const dispatch = useAppDispatch();
 
@@ -48,14 +52,27 @@ const App = () => {
 
   const handleInputFieldOnChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    index: string
+    key: string
   ) => {
     dispatch(
       inputHandler({
-        index,
+        key,
         text: event.target.value,
       })
     );
+  };
+
+  const handleEnterKeypress = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    item: Adress,
+    key: string
+  ) => {
+    if (event.key === 'Enter') {
+      dispatch(addCoordinatesOnOnEnter({
+        item,
+        key,
+      }));
+    }
   };
 
   // https://nominatim.openstreetmap.org/search?format=json&limit=3&q=lutsk
@@ -79,26 +96,43 @@ const App = () => {
         </div>
         <div className="app__form">
           {Object.entries(routeInput).map(([key, value]) => (
-            <div key={key} className={`${fetchedAdresses.key === key && 'app_form-input-container'}`}>
+            <div
+              key={key}
+              className={`${
+                fetchedAdresses.key === key && 'app_form-input-container'
+              }`}
+            >
               <input
                 type="text"
-                value={value}
+                value={value.adressName}
                 onChange={(event) => {
                   handleInputFieldOnChange(event, key);
                   getLocationPointsForInput(
                     event.target.value,
                     setFetchedAdresses,
-                    key,
+                    key
                   );
                 }}
+                onKeyDown={(event) => handleEnterKeypress(event, fetchedAdresses[0], key)}
               />
               {fetchedAdresses.key === key && (
-                <div className='app_form-input-dropdown'>
-                  {fetchedAdresses.info.map((item) => (
-                  <div className='app_form-input-dropdown-item'>
-                    {item.display_name}
-                  </div>
-                ))}
+                <div className="app_form-input-dropdown">
+                  {fetchedAdresses.info.map((item, index) => (
+                    <div
+                      className="app_form-input-dropdown-item"
+                      key={item.place_id}
+                      onClick={() => {
+                        dispatch(
+                          addCoordinatesOnOnClick({
+                            item,
+                            key,
+                          })
+                        );
+                      }}
+                    >
+                      {item.display_name}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

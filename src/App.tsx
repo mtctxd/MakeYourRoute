@@ -35,20 +35,26 @@ interface FetchedAdress {
   info: Adress[];
 }
 
+const initialFetchedAdresses: FetchedAdress = {
+  key: '',
+  info: [],
+};
+
 const App = () => {
   const leafletMap = useRef<any>();
   const location = useGetCurrentLocation();
   const { routeInput } = useAppSelector((state) => state.appSlice);
-  const [fetchedAdresses, setFetchedAdresses] = useState<FetchedAdress>({
-    key: '',
-    info: [],
-  });
+  const [fetchedAdresses, setFetchedAdresses] = useState(initialFetchedAdresses);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setLocation(location));
   }, [location]);
+
+  const resetFetchedAdresses = () => {
+    setFetchedAdresses(initialFetchedAdresses)
+  };
 
   const handleInputFieldOnChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -113,7 +119,19 @@ const App = () => {
                     key
                   );
                 }}
-                onKeyDown={(event) => handleEnterKeypress(event, fetchedAdresses[0], key)}
+                onKeyDown={(event) => {
+                  const item = fetchedAdresses.info[0];
+                  if (event.key === 'Enter' && item) {
+                    dispatch(
+                      addCoordinatesOnOnClick({
+                        item,
+                        key
+                      })
+                    );
+                    resetFetchedAdresses();
+                  }
+                }}
+                onBlur={resetFetchedAdresses}
               />
               {fetchedAdresses.key === key && (
                 <div className="app_form-input-dropdown">

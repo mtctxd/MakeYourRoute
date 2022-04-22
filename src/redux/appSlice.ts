@@ -81,16 +81,8 @@ export const appSlice = createSlice({
         coords: { lat, lng: lon },
       };
     },
-    addCoordinatesOnOnEnter: (state, action) => {
-      const {
-        item: { display_name, lat, lon },
-        key,
-      } = action.payload;
-
-      state.routeInput[key] = {
-        adressName: display_name,
-        coords: { lat, lng: lon },
-      };
+    addCoordinatesOnOnEnter: (_state, action) => {
+        addCoordinatesOnOnClick(action);
     },
   },
 });

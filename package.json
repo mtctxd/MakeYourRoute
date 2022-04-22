@@ -10,6 +10,7 @@
   "dependencies": {
     "@react-leaflet/core": "^2.0.0",
     "@reduxjs/toolkit": "^1.8.1",
+    "@types/leaflet-routing-machine": "^3.2.3",
     "@types/react-redux": "^7.1.24",
     "dotenv": "^16.0.0",
     "leaflet": "^1.8.0",

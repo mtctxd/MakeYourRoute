@@ -1,39 +1,44 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuid } from 'uuid';
 
-interface Coords {
-  lat: number | null;
-  lng: number | null;
+export interface Coords {
+  lat: number | undefined;
+  lng: number | undefined;
+}
+
+export interface RouteInput {
+  [key: string]: {
+    adressName: string;
+    coords: Coords;
+  };
 }
 
 interface AppStateInterface {
-  location: Coords;
-  routeInput: {
-    [key: number]: {
-      adressName: string;
-      coords: Coords;
-    };
+  location: {
+    lat: number,
+    lng: number,
   };
+  routeInput: RouteInput;
 }
 
 const initialState: AppStateInterface = {
   location: {
-    lat: null,
-    lng: null,
+    lat: 51,
+    lng: 51,
   },
   routeInput: {
     [uuid()]: {
       adressName: '',
       coords: {
-        lat: null,
-        lng: null,
+        lat: undefined,
+        lng: undefined,
       },
     },
     [uuid()]: {
       adressName: '',
       coords: {
-        lat: null,
-        lng: null,
+        lat: undefined,
+        lng: undefined,
       },
     },
   },
@@ -63,8 +68,8 @@ export const appSlice = createSlice({
           [uuid()]: {
             adressName: '',
             coords: {
-              lat: null,
-              lng: null,
+              lat: undefined,
+              lng: undefined,
             },
           },
         };
@@ -82,7 +87,7 @@ export const appSlice = createSlice({
       };
     },
     addCoordinatesOnOnEnter: (_state, action) => {
-        addCoordinatesOnOnClick(action);
+      addCoordinatesOnOnClick(action);
     },
   },
 });

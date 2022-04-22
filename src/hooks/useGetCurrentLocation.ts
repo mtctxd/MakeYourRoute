@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
+import { Coords } from '../redux/appSlice';
 
 interface LocationState {
-  isLoading: boolean;
+  isLoading: boolean,
   error: {
     status: boolean;
     message: string;
-  };
+  },
   coordinates: {
-    lat: null | number;
-    lng: null | number;
-  };
+    lat: number,
+    lng: number
+  }, 
 }
 
 const useGetCurrentLocation = () => {
@@ -20,8 +21,8 @@ const useGetCurrentLocation = () => {
       message: 'There some problem with geting your locatin',
     },
     coordinates: {
-      lat: null,
-      lng: null,
+      lat: 51.509865,
+      lng: -0.118092,
     },
   });
 

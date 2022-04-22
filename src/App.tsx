@@ -68,24 +68,14 @@ const App = () => {
     );
   };
 
-  const handleEnterKeypress = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-    item: Adress,
-    key: string
-  ) => {
-    if (event.key === 'Enter') {
-      dispatch(addCoordinatesOnOnEnter({
-        item,
-        key,
-      }));
-    }
-  };
-
   // https://nominatim.openstreetmap.org/search?format=json&limit=3&q=lutsk
 
   const addNode = () => {
     dispatch(addNodeToRouteInput());
   };
+
+  console.log(location);
+  
 
   return (
     <div className="app">
@@ -131,22 +121,24 @@ const App = () => {
                     resetFetchedAdresses();
                   }
                 }}
-                onBlur={resetFetchedAdresses}
               />
               {fetchedAdresses.key === key && (
                 <div className="app_form-input-dropdown">
-                  {fetchedAdresses.info.map((item, index) => (
+                  {fetchedAdresses.info.map((item) => (
                     <div
                       className="app_form-input-dropdown-item"
                       key={item.place_id}
                       onClick={() => {
+                        console.log(key, item);
+                        
                         dispatch(
                           addCoordinatesOnOnClick({
                             item,
-                            key,
+                            key
                           })
                         );
                       }}
+                      onBlur={resetFetchedAdresses}
                     >
                       {item.display_name}
                     </div>
@@ -163,10 +155,10 @@ const App = () => {
         <MapContainer
           ref={leafletMap}
           center={[
-            location.coordinates.lat ?? 51,
-            location.coordinates.lng ?? 31,
+            location.coordinates.lat,
+            location.coordinates.lng,
           ]}
-          zoom={10}
+          zoom={8}
           scrollWheelZoom={true}
         >
           <TileLayer

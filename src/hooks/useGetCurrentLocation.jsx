@@ -1,20 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Coords } from '../redux/appSlice';
-
-interface LocationState {
-  isLoading: boolean,
-  error: {
-    status: boolean;
-    message: string;
-  },
-  coordinates: {
-    lat: number,
-    lng: number
-  }, 
-}
 
 const useGetCurrentLocation = () => {
-  const [location, setLocation] = useState<LocationState>({
+  const [location, setLocation] = useState({
     isLoading: true,
     error: {
       status: false,

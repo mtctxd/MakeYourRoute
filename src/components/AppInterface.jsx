@@ -1,44 +1,55 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+// import { throttle, debounce } from 'lodash';
 
 import getAdreses from '../api/getAdreses';
 import debounce from '../features/debounce';
 
-const AppInterface = ({ routeManager: { routeInfo, setRouteInfo } }) => {
-  const [fetchedAdreses, setFetchedAdreses] = useState([]);
+const initialFetchedAdress = [];
 
-  const handleInput = async (event, id) => {
+const AppInterface = ({ routeManager: { routeInfo, setRouteInfo } }) => {
+  const [fetchedAdreses, setFetchedAdreses] = useState(initialFetchedAdress);
+  const [currentActiveInputId, setCurrentActiveInputId] = useState(null);
+
+  const handleInput = (id, event) => {
     setRouteInfo((state) =>
-      state.map((inputField) => {
-        if (inputField.id === id) {
-          return {
-            ...inputField,
+      state.map( (waypoint) => {
+        if (waypoint.id === id) {
+          const newWaypoint = {
+            ...waypoint,
             adress: event.target.value,
           };
+
+          return newWaypoint;
         }
 
-        return inputField;
+        return waypoint;
       })
     );
 
-    debounce(async () => {
-    }, 150);
-    const currentAdress = routeInfo.find((adress) => adress.id === id);
-    const adresesFromApi = await getAdreses(currentAdress.adress);
+    setCurrentActiveInputId(id);
 
-    setFetchedAdreses(adresesFromApi);
+    throttledProcessAdresses(event.target.value);
   };
+
+  const processAdresses = async(adress) => {
+    const adreses = await getAdreses(adress);
+    setFetchedAdreses(adreses);
+  };
+
+    const throttledProcessAdresses = useCallback(debounce(processAdresses, 150), []);
 
   return (
     <div className="app__interface">
       {routeInfo.map((inputField) => {
-        const { id, adress, coords } = inputField;
+        const { id } = inputField;
         return (
           <div key={id}>
-            <input
-              type="text"
-              value={adress}
-              onChange={(event) => handleInput(event, id)}
-            />
+            <input type="text" onChange={(event) => handleInput(id, event)} />
+            {fetchedAdreses &&
+              currentActiveInputId === id &&
+              fetchedAdreses.map((adress) => (
+                <div key={adress.display_name}>{adress.display_name}</div>
+              ))}
           </div>
         );
       })}

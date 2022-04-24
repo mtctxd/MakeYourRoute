@@ -27,8 +27,6 @@ const initialRouteInfo = [
 const App = () => {
   const [routeInfo, setRouteInfo] = useState(initialRouteInfo);
 
-  console.log(routeInfo);
-
   return (
     <div className="app">
       <AppInterface routeManager={{routeInfo, setRouteInfo}}/>

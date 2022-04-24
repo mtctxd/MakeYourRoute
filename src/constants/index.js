@@ -1,0 +1,1 @@
+export const LOCATION_SEARCH_BASE_URL = 'https://nominatim.openstreetmap.org/search';

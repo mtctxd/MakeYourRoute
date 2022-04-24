@@ -1,9 +1,13 @@
-import './App.css';
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
+
+import './App.css';
+
 import {Map, AppInterface} from './components';
 
 const initialRouteInfo = [
   {
+    id: uuidv4(),
     adress: '',
     coords: {
       lat: null,
@@ -11,6 +15,7 @@ const initialRouteInfo = [
     }
   },
   {
+    id: uuidv4(),
     adress: '',
     coords: {
       lat: null,
@@ -21,6 +26,8 @@ const initialRouteInfo = [
 
 const App = () => {
   const [routeInfo, setRouteInfo] = useState(initialRouteInfo);
+
+  console.log(routeInfo);
 
   return (
     <div className="app">

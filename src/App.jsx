@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import './App.css';
 
@@ -44,11 +44,14 @@ const initialRouteInfo = [
 
 const App = () => {
   const [routeInfo, setRouteInfo] = useState(initialRouteInfo);
+  const [routeSummary, setRouteSummary] = useState({});
+
+  console.log(routeSummary);
 
   return (
     <div className="app">
       <AppInterface routeManager={{routeInfo, setRouteInfo}}/>
-      <Map routeInfo={routeInfo}/>
+      <Map routeInfo={routeInfo} setRouteSummary={setRouteSummary}/>
     </div>
   );
 };

@@ -31,3 +31,8 @@
 .app_form-input-dropdown-item:hover {
   opacity: 1;
 }
+
+/* div.leaflet-top.leaflet-right {
+  opacity: 0;
+  display: none;
+} */

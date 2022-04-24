@@ -4,7 +4,7 @@ import 'leaflet-routing-machine';
 import { useMap } from 'react-leaflet';
 import { useEffect } from 'react';
 
-const Routing = ({ routeInfo }) => {
+const Routing = ({ routeInfo, setRouteSummary }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -27,11 +27,7 @@ const Routing = ({ routeInfo }) => {
       fitSelectedRoutes: true,
     }).addTo(map);
 
-    routingControl.on('routesfound', function (e) {
-      // distance = e.routes[0].summary.totalDistance;
-      // console.log('routing distance: ' + distance);
-      console.log(e.routes[0]);
-    });
+    routingControl.on('routesfound', (e) => setRouteSummary(e.routes[0]));
 
     return () => map.removeControl(routingControl);
   }, [map, routeInfo]);

@@ -1,19 +1,7 @@
 import { useState, useEffect } from 'react';
 
-interface LocationState {
-  isLoading: boolean;
-  error: {
-    status: boolean;
-    message: string;
-  };
-  coordinates: {
-    lat: null | number;
-    lng: null | number;
-  };
-}
-
 const useGetCurrentLocation = () => {
-  const [location, setLocation] = useState<LocationState>({
+  const [location, setLocation] = useState({
     isLoading: true,
     error: {
       status: false,

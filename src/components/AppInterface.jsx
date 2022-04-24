@@ -43,7 +43,7 @@ const AppInterface = ({ routeManager: { routeInfo, setRouteInfo } }) => {
 
   const resetFetchedAdreses = () => {
     setFetchedAdreses(initialFetchedAdress);
-  }
+  };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -55,8 +55,10 @@ const AppInterface = ({ routeManager: { routeInfo, setRouteInfo } }) => {
             return {
               ...waypoint,
               adress: display_name,
-              lat,
-              lng,
+              coords: {
+                lat,
+                lng,
+              },
             };
           }
 
@@ -77,8 +79,10 @@ const AppInterface = ({ routeManager: { routeInfo, setRouteInfo } }) => {
           return {
             ...waypoint,
             adress: display_name,
-            lat,
-            lng,
+            coords: {
+              lat,
+              lng,
+            },
           };
         }
 
@@ -88,8 +92,6 @@ const AppInterface = ({ routeManager: { routeInfo, setRouteInfo } }) => {
 
     resetFetchedAdreses();
   };
-
-
 
   return (
     <div className="app__interface">

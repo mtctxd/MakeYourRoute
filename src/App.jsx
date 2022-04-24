@@ -30,7 +30,7 @@ const App = () => {
   return (
     <div className="app">
       <AppInterface routeManager={{routeInfo, setRouteInfo}}/>
-      <Map />
+      <Map routeInfo={routeInfo}/>
     </div>
   );
 };

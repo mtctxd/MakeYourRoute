@@ -76,7 +76,6 @@ const App = () => {
 
   console.log(location);
   
-
   return (
     <div className="app">
       <div className="app__interface">

@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import L, { latLng } from 'leaflet';
 import { createControlComponent } from '@react-leaflet/core';
 import 'leaflet-routing-machine';
 import { useAppSelector } from '../redux/hooks';
@@ -40,6 +40,7 @@ const createRoutineMachineLayer = () => {
     fitSelectedRoutes: true,
     showAlternatives: false,
   });
+  instance.getPlan().setWaypoints({latLng: L.latLng([33.357464,6.864267,33.374304,6.871693,33.474304,6.971693])} as any);
 
   return instance;
 };

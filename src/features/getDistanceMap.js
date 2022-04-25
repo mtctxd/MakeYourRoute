@@ -2,19 +2,18 @@ import haversineDistance from "./haversineDistance";
 
 const getDistanceMap = async (coordsArray, seter) => {
   if (!coordsArray) {
-    console.log(coordsArray);
     throw 'There no information about route';
   }
 
   const infoHolder = {
     key: '',
     startingCoords: {
-      latHolderStart: null,
-      lngHolderStart: null,
+      lat: null,
+      lng: null,
     },
     endingCoords: {
-      latHolderEnd: null,
-      lngHolderEnd: null,
+      lat: null,
+      lng: null,
     },
     prevDistance: 0,
     distanceCounter: 0,
@@ -22,7 +21,7 @@ const getDistanceMap = async (coordsArray, seter) => {
 
   let {
     key,
-    startingCoords: { latHolderStart, lngHolderStart },
+    startingCoords: { lat, lng },
     distanceCounter,
   } = infoHolder;
 
@@ -39,27 +38,27 @@ const getDistanceMap = async (coordsArray, seter) => {
           tempObj = {
             key,
             startingCoords: {
-              latHolderStart,
-              lngHolderStart,
+              lat,
+              lng,
             },
             endingCoords: {
-              latHolderEnd: lat2,
-              lngHolderEnd: lng2,
+              lat: lat2,
+              lng: lng2,
             },
             distance: distanceCounter,
           };
 
           key = '';
-          latHolderStart = null;
-          lngHolderStart = null;
+          lat = null;
+          lng = null;
           distanceCounter = 0;
           acumulator.push(tempObj);
         }
 
         if (!key) {
           key = `${lat1},${lng1}`;
-          latHolderStart = lat1;
-          lngHolderStart = lng1;
+          lat = lat1;
+          lng = lng1;
         }
 
         distanceCounter += distance;
@@ -69,12 +68,12 @@ const getDistanceMap = async (coordsArray, seter) => {
         acumulator.push({
           key,
           startingCoords: {
-            latHolderStart,
-            lngHolderStart,
+            lat,
+            lng,
           },
           endingCoords: {
-            latHolderEnd: lat1,
-            lngHolderEnd: lng1,
+            lat: lat1,
+            lng: lng1,
           },
           distance: distanceCounter,
         });

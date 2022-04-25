@@ -16,7 +16,6 @@ const AppInterface = ({ routeManager: { routeInfo, setRouteInfo }, routeSummary 
     if (routeSummary.coordinates) {
       getDistanceMap(routeSummary.coordinates, setDistanceMap);
     };
-    console.log(distanceMap);
   }, [routeSummary]);
 
 

@@ -15,6 +15,8 @@ const getAdreses = async (adressString) => {
   const data = await fetch(url.toString());
   const info = await data.json();
 
+
+  console.log(info);
   return info;
 };
 

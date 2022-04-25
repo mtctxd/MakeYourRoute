@@ -7,6 +7,7 @@
 .app__interface {
   width: 500px;
   height: 100%;
+  overflow: auto;
 }
 
 .leaflet-container {
@@ -36,3 +37,8 @@
   opacity: 0;
   display: none;
 } */
+
+.route-info__instruction-list-item {
+  display: flex;
+  justify-content: space-between;
+}

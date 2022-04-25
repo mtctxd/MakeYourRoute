@@ -45,12 +45,12 @@ const initialRouteInfo = [
 
 const App = () => {
   const [routeInfo, setRouteInfo] = useState(initialRouteInfo);
-  const [routeSummary, setRouteSummary] = useState({});
+  const [routeSummary, setRouteSummary] = useState(null);
 
   return (
     <div className="app">
-      <AppInterface routeManager={{ routeInfo, setRouteInfo }} routeSummary={routeSummary}/>
       <Map routeInfo={routeInfo} setRouteSummary={setRouteSummary} />
+      <AppInterface routeManager={{ routeInfo, setRouteInfo }} routeSummary={routeSummary}/>
     </div>
   );
 };

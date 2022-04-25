@@ -4,20 +4,16 @@ import { Container, Input, Stack } from '@chakra-ui/react';
 import getAdreses from '../api/getAdreses';
 import debounce from '../features/debounce';
 import getDistanceMap from '../features/getDistanceMap';
+import RouteInfo from './RouteInfo';
 
 const initialFetchedAdress = [];
 
-const AppInterface = ({ routeManager: { routeInfo, setRouteInfo }, routeSummary }) => {
+const AppInterface = ({
+  routeManager: { routeInfo, setRouteInfo },
+  routeSummary,
+}) => {
   const [fetchedAdreses, setFetchedAdreses] = useState(initialFetchedAdress);
   const [currentActiveInputId, setCurrentActiveInputId] = useState(null);
-  const [distanceMap, setDistanceMap] = useState({});
-
-  useEffect(() => {
-    if (routeSummary.coordinates) {
-      getDistanceMap(routeSummary.coordinates, setDistanceMap);
-    };
-  }, [routeSummary]);
-
 
   const processAdresses = async (adress) => {
     const adreses = await getAdreses(adress);
@@ -131,6 +127,9 @@ const AppInterface = ({ routeManager: { routeInfo, setRouteInfo }, routeSummary 
           );
         })}
       </Stack>
+      <div>
+        {routeSummary && <RouteInfo routeSummary={routeSummary}/>}
+      </div>
     </div>
   );
 };

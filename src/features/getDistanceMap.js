@@ -1,4 +1,6 @@
-const getDistanceMap = (coordsArray) => {
+import haversineDistance from "./haversineDistance";
+
+const getDistanceMap = async (coordsArray, seter) => {
   if (!coordsArray) {
     console.log(coordsArray);
     throw 'There no information about route';
@@ -24,7 +26,7 @@ const getDistanceMap = (coordsArray) => {
     distanceCounter,
   } = infoHolder;
 
-  const distanceArray = coordsArray.reduce(
+  const distanceArray = await coordsArray.reduce(
     (acumulator, iterator, index, array) => {
       const { lat: lat1, lng: lng1 } = iterator;
 
@@ -83,7 +85,7 @@ const getDistanceMap = (coordsArray) => {
     []
   );
 
-  return distanceArray;
+  seter(distanceArray);
 };
 
 export default getDistanceMap;

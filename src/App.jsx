@@ -46,37 +46,10 @@ const initialRouteInfo = [
 const App = () => {
   const [routeInfo, setRouteInfo] = useState(initialRouteInfo);
   const [routeSummary, setRouteSummary] = useState({});
-  const vectorCoords = routeSummary.coordinates;
-
-  // if (vectorCoords) {
-  //   const distanceArray = vectorCoords.map((a, index, array) => {
-  //     if (index < array.length - 1) {
-  //       const { lat: lat1, lng: lng1 } = a;
-  //       const { lat: lat2, lng: lng2 } = array[index + 1];
-  //       const distance = haversineDistance([lat1, lng1], [lat2, lng2]);
-
-  //       return distance;
-  //     }
-
-  //     return;
-  //   });
-
-  //   console.log(distanceArray.reduce((a,b) => {
-  //     if(isNaN(a) || isNaN(b)) {
-  //       return a;
-  //     }
-
-  //     return a + b
-  //   }));
-  // }
-
-
-
-  getDistanceMap(vectorCoords);
 
   return (
     <div className="app">
-      <AppInterface routeManager={{ routeInfo, setRouteInfo }} />
+      <AppInterface routeManager={{ routeInfo, setRouteInfo }} routeSummary={routeSummary}/>
       <Map routeInfo={routeInfo} setRouteSummary={setRouteSummary} />
     </div>
   );

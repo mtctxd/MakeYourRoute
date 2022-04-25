@@ -1,14 +1,24 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Container, Input, Stack } from '@chakra-ui/react';
 
 import getAdreses from '../api/getAdreses';
 import debounce from '../features/debounce';
+import getDistanceMap from '../features/getDistanceMap';
 
 const initialFetchedAdress = [];
 
-const AppInterface = ({ routeManager: { routeInfo, setRouteInfo } }) => {
+const AppInterface = ({ routeManager: { routeInfo, setRouteInfo }, routeSummary }) => {
   const [fetchedAdreses, setFetchedAdreses] = useState(initialFetchedAdress);
   const [currentActiveInputId, setCurrentActiveInputId] = useState(null);
+  const [distanceMap, setDistanceMap] = useState({});
+
+  useEffect(() => {
+    if (routeSummary.coordinates) {
+      getDistanceMap(routeSummary.coordinates, setDistanceMap);
+    };
+    console.log(distanceMap);
+  }, [routeSummary]);
+
 
   const processAdresses = async (adress) => {
     const adreses = await getAdreses(adress);

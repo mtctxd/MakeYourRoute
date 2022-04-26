@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Input, Stack } from '@chakra-ui/react';
+import { DEFAULT_COST_MULTIPLIER, DEFAULT_COST_PER_KILOMETER } from '../constants';
 
 const RouteCost = ({ routeSummary }) => {
   const {
@@ -7,8 +8,8 @@ const RouteCost = ({ routeSummary }) => {
   } = routeSummary;
 
   const [priceInputs, setPriceInputs] = useState({
-    costPerKilometer: 10,
-    multiplier: 10,
+    costPerKilometer: DEFAULT_COST_PER_KILOMETER,
+    multiplier: DEFAULT_COST_MULTIPLIER,
   });
 
   const { costPerKilometer, multiplier } = priceInputs;
@@ -40,6 +41,7 @@ const RouteCost = ({ routeSummary }) => {
       <Stack spacing={4}>
         <Input
           type="text"
+          _placeholder={`Cost per kilometer, default ${DEFAULT_COST_PER_KILOMETER}`}
           name="costPerKilometer"
           variant="flushed"
           value={costPerKilometer}
@@ -49,6 +51,7 @@ const RouteCost = ({ routeSummary }) => {
         />
         <Input
           type="text"
+          _placeholder={`Cost per kilometer, default ${DEFAULT_COST_MULTIPLIER}`}
           name="multiplier"
           variant="flushed"
           value={multiplier}

@@ -21,7 +21,7 @@ const RouteInscructions = ({ routeSummary }) => {
             key={instruction.text + instruction.distance}
           >
             <div>{instruction.text}</div>
-            <div>{`${instruction.distance}km`}</div>
+            <div>{`${Math.round(instruction.distance)}m`}</div>
           </li>
         ))}
       </ul>

@@ -12,7 +12,7 @@ const RouteInfo = ({ routeSummary }) => {
             <Link to="/route-info">Route info</Link>
           </Button>
           <Button colorScheme="blue">
-            <Link to="/route-cost">Coute cost</Link>
+            <Link to="/route-cost">Route cost</Link>
           </Button>
         </div>
 

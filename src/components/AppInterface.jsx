@@ -1,9 +1,21 @@
-import { useState, useCallback, useEffect } from 'react';
-import { Container, Input, Stack } from '@chakra-ui/react';
+import { useState, useCallback, useRef } from 'react';
+import {
+  Container,
+  Input,
+  Stack,
+  Button,
+  Drawer,
+  DrawerOverlay,
+  DrawerBody,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerFooter,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import getAdreses from '../api/getAdreses';
 import debounce from '../features/debounce';
-import getDistanceMap from '../features/getDistanceMap';
 import RouteInfo from './RouteInfo';
 
 const initialFetchedAdress = [];
@@ -14,6 +26,9 @@ const AppInterface = ({
 }) => {
   const [fetchedAdreses, setFetchedAdreses] = useState(initialFetchedAdress);
   const [currentActiveInputId, setCurrentActiveInputId] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
 
   const processAdresses = async (adress) => {
     const adreses = await getAdreses(adress);
@@ -98,39 +113,109 @@ const AppInterface = ({
     resetFetchedAdreses();
   };
 
-  return (
-    <div className="app__interface">
-      <Stack spacing={3}>
-        {routeInfo.map((inputField) => {
-          const { id, adress } = inputField;
-          return (
-            <div key={id}>
-              <Input
-                type="text"
-                value={adress}
-                variant="flushed"
-                onChange={(event) => handleInput(id, event)}
-                onKeyDown={handleKeyDown}
-                onBlur={resetFetchedAdreses}
-              />
-              {fetchedAdreses &&
-                currentActiveInputId === id &&
-                fetchedAdreses.map((adress) => (
-                  <Container
-                    key={adress.display_name}
-                    onClick={(event) => handleClick(id, adress)}
-                  >
-                    {adress.display_name}
-                  </Container>
-                ))}
-            </div>
-          );
-        })}
-      </Stack>
-      <div>
-        {routeSummary && <RouteInfo routeSummary={routeSummary}/>}
+  const handleDeboucedResize = () =>
+    debounce(setWindowWidth(window.innerWidth), 200);
+
+  window.addEventListener('resize', handleDeboucedResize);
+
+  if (windowWidth > 564) {
+    return (
+      <div className="app__interface">
+        <Stack spacing={3}>
+          {routeInfo.map((inputField) => {
+            const { id, adress } = inputField;
+            return (
+              <div key={id}>
+                <Input
+                  type="text"
+                  value={adress}
+                  variant="flushed"
+                  onChange={(event) => handleInput(id, event)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={resetFetchedAdreses}
+                />
+                {fetchedAdreses && currentActiveInputId === id && (
+                  <div className="app_form-input-dropdown">
+                    {fetchedAdreses.map((adress) => (
+                      <div
+                        className="app_form-input-dropdown-item"
+                        key={adress.display_name}
+                        onClick={(event) => handleClick(id, adress)}
+                      >
+                        {adress.display_name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </Stack>
+        <div>{routeSummary && <RouteInfo routeSummary={routeSummary} />}</div>
       </div>
-    </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="button-on-mobile">
+        <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
+          Menu
+        </Button>
+      </div>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>MakeYourRout</DrawerHeader>
+
+          <DrawerBody>
+            <Stack spacing={3}>
+              {routeInfo.map((inputField) => {
+                const { id, adress } = inputField;
+                return (
+                  <div key={id}>
+                    <Input
+                      type="text"
+                      value={adress}
+                      variant="flushed"
+                      onChange={(event) => handleInput(id, event)}
+                      onKeyDown={handleKeyDown}
+                      onBlur={resetFetchedAdreses}
+                    />
+                    {fetchedAdreses && currentActiveInputId === id && (
+                      <div className="app_form-input-dropdown">
+                        {fetchedAdreses.map((adress) => (
+                          <div
+                            className="app_form-input-dropdown-item"
+                            key={adress.display_name}
+                            onClick={(event) => handleClick(id, adress)}
+                          >
+                            {adress.display_name}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </Stack>
+            <div>
+              {routeSummary && <RouteInfo routeSummary={routeSummary} />}
+            </div>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button colorScheme="blue">PDF</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 };
 

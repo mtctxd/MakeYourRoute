@@ -13,12 +13,18 @@ const RouteCost = ({ routeSummary }) => {
 
   const { costPerKilometer, multiplier } = priceInputs;
 
-  const handleInput = (event) => {
+  const handleChange = (event) => {
     if (!isNaN(event.target.value)) {
       setPriceInputs((state) => ({
         ...state,
         [event.target.name]: +event.target.value,
       }));
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      document.activeElement.blur();
     }
   };
 
@@ -36,7 +42,8 @@ const RouteCost = ({ routeSummary }) => {
         name="costPerKilometer"
         variant="flushed"
         value={costPerKilometer}
-        onChange={handleInput}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder="Cost per kilometr"
       />
       <Input
@@ -44,7 +51,8 @@ const RouteCost = ({ routeSummary }) => {
         name="multiplier"
         variant="flushed"
         value={multiplier}
-        onChange={handleInput}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder="price multiplier"
       />
       <span>{priceCost}</span>

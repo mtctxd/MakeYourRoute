@@ -20,17 +20,20 @@
 }
 
 .app_form-input-dropdown {
+  background-color: white;
   position: absolute;
 }
 
 .app_form-input-dropdown-item {
-  background-color: green;
-  opacity: 0.8;
+  background-color: white;
+  outline: none;
+  z-index: 1;
+  opacity: 1;
   cursor: pointer;
 }
 
 .app_form-input-dropdown-item:hover {
-  opacity: 1;
+  background-color: rgb(230, 230, 230);
 }
 
 div.leaflet-top.leaflet-right {
@@ -41,4 +44,11 @@ div.leaflet-top.leaflet-right {
 .route-info__instruction-list-item {
   display: flex;
   justify-content: space-between;
+}
+
+.button-on-mobile {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
 }

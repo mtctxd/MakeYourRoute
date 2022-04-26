@@ -33,7 +33,7 @@ const AppInterface = ({
 
   useEffect(() => {
     const onClick = (e) =>
-      rootEl.current.contains(e.target) || resetFetchedAdreses();
+      rootEl.current?.contains(e.target) || resetFetchedAdreses();
     document.addEventListener('click', onClick);
     return () => document.removeEventListener('click', onClick);
   }, []);

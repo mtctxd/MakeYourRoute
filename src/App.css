@@ -77,3 +77,10 @@ div.leaflet-top.leaflet-right {
   flex-direction: row;
   justify-content: space-between;
 }
+
+.route-info__cost-input-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center start;
+  gap: 8px;
+}

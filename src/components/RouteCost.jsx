@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Input, Stack } from '@chakra-ui/react';
-import { DEFAULT_COST_MULTIPLIER, DEFAULT_COST_PER_KILOMETER } from '../constants';
+import {
+  DEFAULT_COST_MULTIPLIER,
+  DEFAULT_COST_PER_KILOMETER,
+} from '../constants';
 
 const RouteCost = ({ routeSummary }) => {
   const {
@@ -37,31 +40,35 @@ const RouteCost = ({ routeSummary }) => {
   );
 
   return (
-    <div className="route-info__cost">
-      <Stack spacing={4}>
+    <Stack spacing={4}>
+      <div className="route-info__cost-input-container">
+        <label htmlFor="cost-costPerKilometer">Cost per kilometr</label>
         <Input
+          id="cost-costPerKilometer"
           type="text"
-          _placeholder={`Cost per kilometer, default ${DEFAULT_COST_PER_KILOMETER}`}
           name="costPerKilometer"
           variant="flushed"
           value={costPerKilometer}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          placeholder="Cost per kilometr"
         />
+      </div>
+
+      <div className="route-info__cost-input-container">
+        <label htmlFor="cost-multiplyer">Cost multiplyer</label>
         <Input
+          id="cost-multiplyer"
           type="text"
-          _placeholder={`Cost per kilometer, default ${DEFAULT_COST_MULTIPLIER}`}
           name="multiplier"
           variant="flushed"
           value={multiplier}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          placeholder="price multiplier"
         />
-        <span>{priceCost}</span>
-      </Stack>
-    </div>
+      </div>
+
+      <span>{`Total cost: ${priceCost}`}</span>
+    </Stack>
   );
 };
 

@@ -29,18 +29,18 @@
   height: 100%;
 }
 
-.app_form-input-container {
+.app__form-input-container {
   position: relative;
 }
 
-.app_form-input-dropdown {
+.app__form-input-dropdown {
   width: 100%;
   position: absolute;
   z-index: 400;
   background-color: white;
 }
 
-.app_form-input-dropdown-item {
+.app__form-input-dropdown-item {
   background-color: white;
   box-sizing: border-box;
   border: 1px solid rgb(230, 230, 230);
@@ -49,7 +49,7 @@
   cursor: pointer;
 }
 
-.app_form-input-dropdown-item:hover {
+.app__form-input-dropdown-item:hover {
   background-color: rgb(230, 230, 230);
 }
 

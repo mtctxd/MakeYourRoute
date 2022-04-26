@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   Input,
   Stack,
@@ -28,6 +28,13 @@ const AppInterface = ({
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+  const rootEl = useRef(null);
+
+  useEffect(() => {
+    const onClick = e => rootEl.current.contains(e.target) || resetFetchedAdreses();
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   const processAdresses = async (adress) => {
     const adreses = await getAdreses(adress);
@@ -65,7 +72,7 @@ const AppInterface = ({
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && fetchedAdreses.length > 0) {
       setRouteInfo((state) =>
         state.map((waypoint) => {
           if (waypoint.id === currentActiveInputId && fetchedAdreses) {
@@ -107,6 +114,29 @@ const AppInterface = ({
 
   window.addEventListener('resize', handleDeboucedResize);
 
+  const handleClick = (id, adress) => {
+    setRouteInfo((state) =>
+      state.map((waypoint) => {
+        if (waypoint.id === id) {
+          const { display_name, lat, lon: lng } = adress;
+
+          return {
+            ...waypoint,
+            adress: display_name,
+            coords: {
+              lat,
+              lng,
+            },
+          };
+        }
+
+        return waypoint;
+      })
+    );
+
+    resetFetchedAdreses();
+  };
+
   if (windowWidth > 564) {
     return (
       <div className="app__interface">
@@ -117,8 +147,39 @@ const AppInterface = ({
 
             {routeInfo.map((inputField, index) => {
               const { id, adress } = inputField;
+
+              if (currentActiveInputId === id) {
+                return (
+                  <div
+                    key={id}
+                    ref={rootEl}
+                    className="app__form-input-container"
+                    onFocusCapture={resetFetchedAdreses}
+                  >
+                    <Input
+                      type="text"
+                      placeholder={inputPlaceholder(index, routeInfo)}
+                      value={adress}
+                      variant="flushed"
+                      onChange={(event) => handleInput(id, event)}
+                      onKeyDown={handleKeyDown}
+                    />
+                    <InputDropdown
+                      currentActiveInputId={currentActiveInputId}
+                      id={id}
+                      fetchedAdreses={fetchedAdreses}
+                      adress={adress}
+                      handleClick={handleClick}
+                    />
+                  </div>
+                );
+              }
               return (
-                <div key={id} className="app_form-input-container">
+                <div
+                  key={id}
+                  className="app__form-input-container"
+                  onFocusCapture={resetFetchedAdreses}
+                >
                   <Input
                     type="text"
                     placeholder={inputPlaceholder(index, routeInfo)}
@@ -126,15 +187,13 @@ const AppInterface = ({
                     variant="flushed"
                     onChange={(event) => handleInput(id, event)}
                     onKeyDown={handleKeyDown}
-                    onBlur={resetFetchedAdreses}
                   />
                   <InputDropdown
                     currentActiveInputId={currentActiveInputId}
                     id={id}
                     fetchedAdreses={fetchedAdreses}
                     adress={adress}
-                    setFetchedAdreses={setFetchedAdreses}
-                    resetFetchedAdreses={resetFetchedAdreses}
+                    handleClick={handleClick}
                   />
                 </div>
               );
@@ -168,9 +227,16 @@ const AppInterface = ({
             <Stack spacing={3}>
               <Button colorScheme="blue">Get PDF</Button>
               {routeInfo.map((inputField, index) => {
-                const { id, adress } = inputField;
+              const { id, adress } = inputField;
+
+              if (currentActiveInputId === id) {
                 return (
-                  <div key={id}>
+                  <div
+                    key={id}
+                    ref={rootEl}
+                    className="app__form-input-container"
+                    onFocusCapture={resetFetchedAdreses}
+                  >
                     <Input
                       type="text"
                       placeholder={inputPlaceholder(index, routeInfo)}
@@ -178,19 +244,41 @@ const AppInterface = ({
                       variant="flushed"
                       onChange={(event) => handleInput(id, event)}
                       onKeyDown={handleKeyDown}
-                      onBlur={resetFetchedAdreses}
                     />
                     <InputDropdown
                       currentActiveInputId={currentActiveInputId}
                       id={id}
                       fetchedAdreses={fetchedAdreses}
                       adress={adress}
-                      setFetchedAdreses={setFetchedAdreses}
-                      resetFetchedAdreses={resetFetchedAdreses}
+                      handleClick={handleClick}
                     />
                   </div>
                 );
-              })}
+              }
+              return (
+                <div
+                  key={id}
+                  className="app__form-input-container"
+                  onFocusCapture={resetFetchedAdreses}
+                >
+                  <Input
+                    type="text"
+                    placeholder={inputPlaceholder(index, routeInfo)}
+                    value={adress}
+                    variant="flushed"
+                    onChange={(event) => handleInput(id, event)}
+                    onKeyDown={handleKeyDown}
+                  />
+                  <InputDropdown
+                    currentActiveInputId={currentActiveInputId}
+                    id={id}
+                    fetchedAdreses={fetchedAdreses}
+                    adress={adress}
+                    handleClick={handleClick}
+                  />
+                </div>
+              );
+            })}
               <RouteInfo routeSummary={routeSummary} />
             </Stack>
           </DrawerBody>

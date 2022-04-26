@@ -17,6 +17,7 @@ import debounce from '../features/debounce';
 import RouteInfo from './RouteInfo';
 import InputDropdown from './InputDropdown';
 import AppInput from './AppInput';
+import jsPDF from 'jspdf';
 
 const initialFetchedAdress = [];
 
@@ -139,13 +140,31 @@ const AppInterface = ({
     resetFetchedAdreses();
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF({
+      orientation: 'landscape',
+      compress: false,
+      format: [window.innerWidth, window.innerHeight],
+      unit: 'px',
+      filters: ["ASCIIHexEncode"],
+    });
+
+    doc.html(document.getElementById('app'), {
+      callback: (pdf) => {
+        pdf.save('routeInfo.pdf');
+      },
+    });
+  };
+
   if (windowWidth > 564) {
     return (
       <div className="app__interface">
         <div className="app__interface-header">MakeYourRout</div>
         <div className="app__interface-container">
           <Stack>
-            <Button colorScheme="blue">Get PDF</Button>
+            <Button colorScheme="blue" onClick={generatePDF}>
+              Get PDF
+            </Button>
             {routeInfo.map(({ id, adress }, index) => (
               <AppInput
                 id={id}
@@ -187,7 +206,9 @@ const AppInterface = ({
 
           <DrawerBody>
             <Stack spacing={3}>
-              <Button colorScheme="blue">Get PDF</Button>
+              <Button colorScheme="blue" onClick={generatePDF}>
+                Get PDF
+              </Button>
               {routeInfo.map(({ id, adress }, index) => (
                 <AppInput
                   id={id}

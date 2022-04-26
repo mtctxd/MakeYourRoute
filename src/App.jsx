@@ -24,31 +24,13 @@ const initialRouteInfo = [
     }
   },
 ];
-// const initialRouteInfo = [
-//   {
-//     id: uuidv4(),
-//     adress: '',
-//     coords: {
-//       lat: 50.7450733,
-//       lng: 25.320078,
-//     },
-//   },
-//   {
-//     id: uuidv4(),
-//     adress: '',
-//     coords: {
-//       lat: 51.218194499999996,
-//       lng: 22.554677562145155,
-//     },
-//   },
-// ];
 
 const App = () => {
   const [routeInfo, setRouteInfo] = useState(initialRouteInfo);
   const [routeSummary, setRouteSummary] = useState(null);
 
   return (
-    <div className="app">
+    <div className="app" id='app'>
       <Map routeInfo={routeInfo} setRouteSummary={setRouteSummary} />
       <AppInterface routeManager={{ routeInfo, setRouteInfo }} routeSummary={routeSummary}/>
     </div>

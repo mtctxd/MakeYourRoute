@@ -1,4 +1,4 @@
-import validDateString from "../features/validDateString";
+import validDateString from '../features/validDateString';
 
 const RouteInscructions = ({ routeSummary }) => {
   const {

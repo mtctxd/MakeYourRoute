@@ -33,10 +33,10 @@
   opacity: 1;
 }
 
-/* div.leaflet-top.leaflet-right {
+div.leaflet-top.leaflet-right {
   opacity: 0;
   display: none;
-} */
+}
 
 .route-info__instruction-list-item {
   display: flex;

@@ -22,7 +22,7 @@ const Routing = ({ routeInfo, setRouteSummary }) => {
         styles: [{ color: '#6FA1EC', weight: 4 }],
       },
       show: true,
-      showAlternatives: true,
+      showAlternatives: false,
       addWaypoints: true,
       fitSelectedRoutes: true,
     }).addTo(map);

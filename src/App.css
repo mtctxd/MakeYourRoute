@@ -5,9 +5,23 @@
 }
 
 .app__interface {
-  width: 500px;
+  width: 420px;
   height: 100%;
   overflow: auto;
+}
+
+.app__interface-header {
+  padding-inline-start: 1.5rem;
+  padding-inline-end: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.app__interface-container {
+  padding-inline-start: 1.5rem;
+  padding-inline-end: 1.5rem;
 }
 
 .leaflet-container {
@@ -20,14 +34,17 @@
 }
 
 .app_form-input-dropdown {
-  background-color: white;
+  width: 100%;
   position: absolute;
+  z-index: 400;
+  background-color: white;
 }
 
 .app_form-input-dropdown-item {
   background-color: white;
+  box-sizing: border-box;
+  border: 1px solid rgb(230, 230, 230);
   outline: none;
-  z-index: 1;
   opacity: 1;
   cursor: pointer;
 }
@@ -44,6 +61,8 @@ div.leaflet-top.leaflet-right {
 .route-info__instruction-list-item {
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgb(230, 230, 230);
 }
 
 .button-on-mobile {
@@ -51,4 +70,10 @@ div.leaflet-top.leaflet-right {
   top: 10px;
   right: 10px;
   z-index: 1000;
+}
+
+.route-info__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

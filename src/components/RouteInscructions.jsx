@@ -10,9 +10,9 @@ const RouteInscructions = ({ routeSummary }) => {
   return (
     <div className="route-info__instructions">
       <div className="route-info__header">
-        <div>{name}</div>
-        <div>{`${Math.round(totalDistance / 10) / 100} km`}</div>
-        <div>{validDateString(totalTime)}</div>
+        <div>{`Road name: ${name}`}</div>
+        <div>{`Distance: ${Math.round(totalDistance / 10) / 100} km`}</div>
+        <div>{`Estimated time spent: ${validDateString(totalTime)}`}</div>
       </div>
       <ul className="route-info__instructions-list">
         {instructions.map((instruction) => (

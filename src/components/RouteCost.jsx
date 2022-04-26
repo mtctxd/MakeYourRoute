@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input } from '@chakra-ui/react';
+import { Input, Stack } from '@chakra-ui/react';
 
 const RouteCost = ({ routeSummary }) => {
   const {
@@ -37,25 +37,27 @@ const RouteCost = ({ routeSummary }) => {
 
   return (
     <div className="route-info__cost">
-      <Input
-        type="text"
-        name="costPerKilometer"
-        variant="flushed"
-        value={costPerKilometer}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        placeholder="Cost per kilometr"
-      />
-      <Input
-        type="text"
-        name="multiplier"
-        variant="flushed"
-        value={multiplier}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        placeholder="price multiplier"
-      />
-      <span>{priceCost}</span>
+      <Stack spacing={4}>
+        <Input
+          type="text"
+          name="costPerKilometer"
+          variant="flushed"
+          value={costPerKilometer}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Cost per kilometr"
+        />
+        <Input
+          type="text"
+          name="multiplier"
+          variant="flushed"
+          value={multiplier}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder="price multiplier"
+        />
+        <span>{priceCost}</span>
+      </Stack>
     </div>
   );
 };

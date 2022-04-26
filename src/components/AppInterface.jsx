@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
 import {
-  Container,
   Input,
   Stack,
   Button,
@@ -10,13 +9,13 @@ import {
   DrawerContent,
   DrawerCloseButton,
   DrawerHeader,
-  DrawerFooter,
   useDisclosure,
 } from '@chakra-ui/react';
 
 import getAdreses from '../api/getAdreses';
 import debounce from '../features/debounce';
 import RouteInfo from './RouteInfo';
+import InputDropdown from './InputDropdown';
 
 const initialFetchedAdress = [];
 
@@ -36,7 +35,7 @@ const AppInterface = ({
   };
 
   const throttledProcessAdresses = useCallback(
-    debounce(processAdresses, 200),
+    debounce(processAdresses, 250),
     []
   );
 
@@ -90,28 +89,18 @@ const AppInterface = ({
     }
   };
 
-  const handleClick = (id, adress) => {
-    setRouteInfo((state) =>
-      state.map((waypoint) => {
-        if (waypoint.id === id) {
-          const { display_name, lat, lon: lng } = adress;
+  const inputPlaceholder = (index, array) => {
+    switch (true) {
+      case index === 0:
+        return 'Enter start point'
 
-          return {
-            ...waypoint,
-            adress: display_name,
-            coords: {
-              lat,
-              lng,
-            },
-          };
-        }
-
-        return waypoint;
-      })
-    );
-
-    resetFetchedAdreses();
-  };
+      case index === array.length - 1:
+        return 'Enter end point'
+    
+      default:
+        return `Enter ${index + 1} point`
+    };
+  }
 
   const handleDeboucedResize = () =>
     debounce(setWindowWidth(window.innerWidth), 200);
@@ -121,37 +110,38 @@ const AppInterface = ({
   if (windowWidth > 564) {
     return (
       <div className="app__interface">
-        <Stack spacing={3}>
-          {routeInfo.map((inputField) => {
-            const { id, adress } = inputField;
-            return (
-              <div key={id}>
-                <Input
-                  type="text"
-                  value={adress}
-                  variant="flushed"
-                  onChange={(event) => handleInput(id, event)}
-                  onKeyDown={handleKeyDown}
-                  onBlur={resetFetchedAdreses}
-                />
-                {fetchedAdreses && currentActiveInputId === id && (
-                  <div className="app_form-input-dropdown">
-                    {fetchedAdreses.map((adress) => (
-                      <div
-                        className="app_form-input-dropdown-item"
-                        key={adress.display_name}
-                        onClick={(event) => handleClick(id, adress)}
-                      >
-                        {adress.display_name}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </Stack>
-        <div>{routeSummary && <RouteInfo routeSummary={routeSummary} />}</div>
+        <div className="app__interface-header">MakeYourRout</div>
+        <div className="app__interface-container">
+          <Stack>
+            <Button colorScheme="blue">Get PDF</Button>
+
+            {routeInfo.map((inputField, index) => {
+              const { id, adress } = inputField;
+              return (
+                <div key={id} className="app_form-input-container">
+                  <Input
+                    type="text"
+                    placeholder={inputPlaceholder(index, routeInfo)}
+                    value={adress}
+                    variant="flushed"
+                    onChange={(event) => handleInput(id, event)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={resetFetchedAdreses}
+                  />
+                  <InputDropdown
+                    currentActiveInputId={currentActiveInputId}
+                    id={id}
+                    fetchedAdreses={fetchedAdreses}
+                    adress={adress}
+                    setFetchedAdreses={setFetchedAdreses}
+                    resetFetchedAdreses={resetFetchedAdreses}
+                  />
+                </div>
+              );
+            })}
+          <RouteInfo routeSummary={routeSummary} />
+          </Stack>
+        </div>
       </div>
     );
   }
@@ -176,43 +166,34 @@ const AppInterface = ({
 
           <DrawerBody>
             <Stack spacing={3}>
-              {routeInfo.map((inputField) => {
+              <Button colorScheme="blue">Get PDF</Button>
+              {routeInfo.map((inputField, index) => {
                 const { id, adress } = inputField;
                 return (
                   <div key={id}>
                     <Input
                       type="text"
+                      placeholder={inputPlaceholder(index, routeInfo)}
                       value={adress}
                       variant="flushed"
                       onChange={(event) => handleInput(id, event)}
                       onKeyDown={handleKeyDown}
                       onBlur={resetFetchedAdreses}
                     />
-                    {fetchedAdreses && currentActiveInputId === id && (
-                      <div className="app_form-input-dropdown">
-                        {fetchedAdreses.map((adress) => (
-                          <div
-                            className="app_form-input-dropdown-item"
-                            key={adress.display_name}
-                            onClick={(event) => handleClick(id, adress)}
-                          >
-                            {adress.display_name}
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                    <InputDropdown
+                      currentActiveInputId={currentActiveInputId}
+                      id={id}
+                      fetchedAdreses={fetchedAdreses}
+                      adress={adress}
+                      setFetchedAdreses={setFetchedAdreses}
+                      resetFetchedAdreses={resetFetchedAdreses}
+                    />
                   </div>
                 );
               })}
+                <RouteInfo routeSummary={routeSummary} />
             </Stack>
-            <div>
-              {routeSummary && <RouteInfo routeSummary={routeSummary} />}
-            </div>
           </DrawerBody>
-
-          <DrawerFooter>
-            <Button colorScheme="blue">PDF</Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

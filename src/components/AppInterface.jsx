@@ -92,15 +92,15 @@ const AppInterface = ({
   const inputPlaceholder = (index, array) => {
     switch (true) {
       case index === 0:
-        return 'Enter start point'
+        return 'Enter start point';
 
       case index === array.length - 1:
-        return 'Enter end point'
-    
+        return 'Enter end point';
+
       default:
-        return `Enter ${index + 1} point`
-    };
-  }
+        return `Enter ${index + 1} point`;
+    }
+  };
 
   const handleDeboucedResize = () =>
     debounce(setWindowWidth(window.innerWidth), 200);
@@ -139,7 +139,7 @@ const AppInterface = ({
                 </div>
               );
             })}
-          <RouteInfo routeSummary={routeSummary} />
+            <RouteInfo routeSummary={routeSummary} />
           </Stack>
         </div>
       </div>
@@ -191,7 +191,7 @@ const AppInterface = ({
                   </div>
                 );
               })}
-                <RouteInfo routeSummary={routeSummary} />
+              <RouteInfo routeSummary={routeSummary} />
             </Stack>
           </DrawerBody>
         </DrawerContent>

@@ -35,10 +35,7 @@ const InputDropdown = ({
           <div
             className="app_form-input-dropdown-item"
             key={adress.display_name}
-            onClick={(event) => {
-                handleClick(id, adress);
-                console.log('asdads');
-            }}
+            onClick={() => handleClick(id, adress)}
           >
             {adress.display_name}
           </div>

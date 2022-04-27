@@ -1,4 +1,4 @@
-import haversineDistance from "./haversineDistance";
+import haversineDistance from './haversineDistance';
 
 const getDistanceMap = async (coordsArray, seter) => {
   if (!coordsArray) {

@@ -41,9 +41,10 @@ const RouteCost = ({ routeSummary }) => {
   );
 
   return (
-    <Stack spacing={4} id='routeCost'>
-      
-      <Button colorScheme="blue" onClick={() => generatePDF('routeCost')}>Get route cost in PFD</Button>
+    <Stack spacing={4} id="routeCost">
+      <Button colorScheme="blue" onClick={() => generatePDF('routeCost')}>
+        Get route cost in PFD
+      </Button>
       <div className="route-info__cost-input-container">
         <label htmlFor="cost-costPerKilometer">Cost per kilometr</label>
         <Input

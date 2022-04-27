@@ -1,7 +1,8 @@
 const InputDropdown = ({
   fetchedAdreses,
   currentActiveInputId,
-  id,handleClick
+  id,
+  handleClick,
 }) => {
   if (fetchedAdreses && currentActiveInputId === id) {
     return (

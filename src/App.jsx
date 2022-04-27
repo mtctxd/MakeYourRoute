@@ -27,13 +27,19 @@ const initialRouteInfo = [
 const App = () => {
   const [routeInfo, setRouteInfo] = useState(initialRouteInfo);
   const [routeSummary, setRouteSummary] = useState(null);
+  const [pageError, setPageError] = useState(null);
 
   return (
     <div className="app">
-      <Map routeInfo={routeInfo} setRouteSummary={setRouteSummary} />
+      <Map
+        routeInfo={routeInfo}
+        setRouteSummary={setRouteSummary}
+        setPageError={setPageError}
+      />
       <AppInterface
         routeManager={{ routeInfo, setRouteInfo }}
         routeSummary={routeSummary}
+        pageError={pageError}
       />
     </div>
   );

@@ -13,7 +13,7 @@ const AppInput = ({
   handleKeyDown,
   adress,
   fetchedAdreses,
-  handleClick
+  handleClick,
 }) => (
   <div
     ref={currentActiveInputId === id ? rootEl : null}

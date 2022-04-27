@@ -1,4 +1,4 @@
-import {LOCATION_SEARCH_BASE_URL} from '../constants'
+import { LOCATION_SEARCH_BASE_URL } from '../constants';
 
 const getAdreses = async (adressString) => {
   const url = new URL(LOCATION_SEARCH_BASE_URL);

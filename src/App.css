@@ -70,6 +70,10 @@ div.leaflet-top.leaflet-right {
   z-index: 1000;
 }
 
+.route-info--error {
+  color: tomato;
+}
+
 .route-info__buttons {
   display: flex;
   flex-direction: row;

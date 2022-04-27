@@ -3,7 +3,15 @@ import { Button } from '@chakra-ui/react';
 import RouteInscructions from './RouteInscructions';
 import RouteCost from './RouteCost';
 
-const RouteInfo = ({ routeSummary }) => {
+const RouteInfo = ({ routeSummary, pageError }) => {
+  if (pageError) {
+    return (
+      <div className="route-info">
+        <h2 className="route-info--error">{pageError.error.message}</h2>
+      </div>
+    );
+  }
+
   if (routeSummary) {
     return (
       <div className="route-info">

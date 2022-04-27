@@ -13,6 +13,7 @@ const initialFetchedAdress = [];
 const AppInterface = ({
   routeManager: { routeInfo, setRouteInfo },
   routeSummary,
+  pageError,
 }) => {
   const [fetchedAdreses, setFetchedAdreses] = useState(initialFetchedAdress);
   const [currentActiveInputId, setCurrentActiveInputId] = useState(null);
@@ -148,7 +149,7 @@ const AppInterface = ({
               handleClick={handleClick}
             />
           ))}
-          <RouteInfo routeSummary={routeSummary} />
+          <RouteInfo routeSummary={routeSummary} pageError={pageError} />
         </Stack>
       </AppInterfacePC>
     );
@@ -177,7 +178,7 @@ const AppInterface = ({
               handleClick={handleClick}
             />
           ))}
-          <RouteInfo routeSummary={routeSummary} />
+          <RouteInfo routeSummary={routeSummary} pageError={pageError} />
         </Stack>
       </AppInterfaceMobile>
     </>

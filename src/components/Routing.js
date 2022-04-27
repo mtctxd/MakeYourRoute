@@ -3,7 +3,7 @@ import 'leaflet-routing-machine';
 import { useMap } from 'react-leaflet';
 import { useEffect } from 'react';
 
-const Routing = ({ routeInfo, setRouteSummary }) => {
+const Routing = ({ routeInfo, setRouteSummary, setPageError }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -26,7 +26,12 @@ const Routing = ({ routeInfo, setRouteSummary }) => {
       fitSelectedRoutes: true,
     }).addTo(map);
 
-    routingControl.on('routesfound', (e) => setRouteSummary(e.routes[0]));
+    routingControl.on('routesfound', (e) => {
+      setRouteSummary(e.routes[0]);
+      setPageError(false);
+    });
+
+    routingControl.on('routingerror', (e) => setPageError(e));
 
     return () => map.removeControl(routingControl);
   }, [map, routeInfo]);

@@ -1,5 +1,4 @@
 import L from 'leaflet';
-import { createControlComponent } from '@react-leaflet/core';
 import 'leaflet-routing-machine';
 import { useMap } from 'react-leaflet';
 import { useEffect } from 'react';

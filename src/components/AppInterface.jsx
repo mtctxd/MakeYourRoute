@@ -146,7 +146,6 @@ const AppInterface = ({
       compress: false,
       format: [window.innerWidth, window.innerHeight],
       unit: 'px',
-      filters: ["ASCIIHexEncode"],
     });
 
     doc.html(document.getElementById('app'), {

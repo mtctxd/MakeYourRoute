@@ -7,7 +7,6 @@ import RouteInfo from './RouteInfo';
 import AppInput from './AppInput';
 import AppInterfacePC from './AppInterfacePC';
 import AppInterfaceMobile from './AppInterfaceMobile';
-import generatePDF from '../features/generatePDF';
 
 const initialFetchedAdress = [];
 

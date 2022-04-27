@@ -1,7 +1,7 @@
 import React from "react";
 import { LOCATION_SEARCH_BASE_URL } from "../constants";
 
-export const getLocationPointsForInput = async (locationName: string, dataSeter: any, key: string) => {
+export const getLocationPointsForInput = async (locationName, dataSeter, key) => {
   const url = new URL(LOCATION_SEARCH_BASE_URL);
   const searchParams = {
     format: 'json',

@@ -24,6 +24,7 @@ const Routing = ({ routeInfo, setRouteSummary }) => {
       showAlternatives: false,
       addWaypoints: true,
       fitSelectedRoutes: true,
+      serviceUrl: ['http://localhost:3000', 'https://mtctxd.github.io/maps-test-task/'],
     }).addTo(map);
 
     routingControl.on('routesfound', (e) => setRouteSummary(e.routes[0]));

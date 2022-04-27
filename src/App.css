@@ -58,11 +58,9 @@ div.leaflet-top.leaflet-right {
   display: none;
 }
 
-.route-info__instruction-list-item {
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  border-bottom: 1px solid rgb(230, 230, 230);
+.map {
+  width: 100%;
+  height: 100%;
 }
 
 .button-on-mobile {
@@ -76,6 +74,7 @@ div.leaflet-top.leaflet-right {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding-bottom: 4px;
 }
 
 .route-info__cost-input-container {
@@ -83,4 +82,11 @@ div.leaflet-top.leaflet-right {
   grid-template-columns: repeat(2, 1fr);
   place-items: center start;
   gap: 8px;
+}
+
+.route-info__instruction-list-item {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgb(230, 230, 230);
 }

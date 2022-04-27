@@ -4,7 +4,6 @@ import { useState } from 'react';
 import './App.css';
 
 import { Map, AppInterface } from './components';
-import haversineDistance from './features/haversineDistance';
 
 const initialRouteInfo = [
   {
@@ -13,7 +12,7 @@ const initialRouteInfo = [
     coords: {
       lat: null,
       lng: null,
-    }
+    },
   },
   {
     id: uuidv4(),
@@ -21,7 +20,7 @@ const initialRouteInfo = [
     coords: {
       lat: null,
       lng: null,
-    }
+    },
   },
 ];
 
@@ -30,9 +29,12 @@ const App = () => {
   const [routeSummary, setRouteSummary] = useState(null);
 
   return (
-    <div className="app" id='app'>
+    <div className="app">
       <Map routeInfo={routeInfo} setRouteSummary={setRouteSummary} />
-      <AppInterface routeManager={{ routeInfo, setRouteInfo }} routeSummary={routeSummary}/>
+      <AppInterface
+        routeManager={{ routeInfo, setRouteInfo }}
+        routeSummary={routeSummary}
+      />
     </div>
   );
 };

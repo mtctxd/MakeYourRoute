@@ -1,23 +1,13 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import {
-  Input,
-  Stack,
-  Button,
-  Drawer,
-  DrawerOverlay,
-  DrawerBody,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Stack, Button, useDisclosure } from '@chakra-ui/react';
 
 import getAdreses from '../api/getAdreses';
 import debounce from '../features/debounce';
 import RouteInfo from './RouteInfo';
-import InputDropdown from './InputDropdown';
 import AppInput from './AppInput';
-import jsPDF from 'jspdf';
+import AppInterfacePC from './AppInterfacePC';
+import AppInterfaceMobile from './AppInterfaceMobile';
+import generatePDF from '../features/generatePDF';
 
 const initialFetchedAdress = [];
 
@@ -140,48 +130,28 @@ const AppInterface = ({
     resetFetchedAdreses();
   };
 
-  const generatePDF = () => {
-    const doc = new jsPDF({
-      orientation: 'landscape',
-      compress: false,
-      format: [window.innerWidth, window.innerHeight],
-      unit: 'px',
-    });
-
-    doc.html(document.getElementById('app'), {
-      callback: (pdf) => {
-        pdf.save('routeInfo.pdf');
-      },
-    });
-  };
-
   if (windowWidth > 564) {
     return (
-      <div className="app__interface">
-        <div className="app__interface-header">MakeYourRout</div>
-        <div className="app__interface-container">
-          <Stack>
-            <Button colorScheme="blue" onClick={generatePDF}>
-              Get PDF
-            </Button>
-            {routeInfo.map(({ id, adress }, index) => (
-              <AppInput
-                id={id}
-                adress={adress}
-                index={index}
-                currentActiveInputId={currentActiveInputId}
-                routeInfo={routeInfo}
-                fetchedAdreses={fetchedAdreses}
-                inputPlaceholder={inputPlaceholder}
-                handleInput={handleInput}
-                handleKeyDown={handleKeyDown}
-                handleClick={handleClick}
-              />
-            ))}
-            <RouteInfo routeSummary={routeSummary} />
-          </Stack>
-        </div>
-      </div>
+      <AppInterfacePC>
+        <Stack spacing={4}>
+          {routeInfo.map(({ id, adress }, index) => (
+            <AppInput
+              key={id}
+              id={id}
+              adress={adress}
+              index={index}
+              currentActiveInputId={currentActiveInputId}
+              routeInfo={routeInfo}
+              fetchedAdreses={fetchedAdreses}
+              inputPlaceholder={inputPlaceholder}
+              handleInput={handleInput}
+              handleKeyDown={handleKeyDown}
+              handleClick={handleClick}
+            />
+          ))}
+          <RouteInfo routeSummary={routeSummary} />
+        </Stack>
+      </AppInterfacePC>
     );
   }
 
@@ -192,41 +162,25 @@ const AppInterface = ({
           Menu
         </Button>
       </div>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>MakeYourRout</DrawerHeader>
-
-          <DrawerBody>
-            <Stack spacing={3}>
-              <Button colorScheme="blue" onClick={generatePDF}>
-                Get PDF
-              </Button>
-              {routeInfo.map(({ id, adress }, index) => (
-                <AppInput
-                  id={id}
-                  adress={adress}
-                  index={index}
-                  currentActiveInputId={currentActiveInputId}
-                  routeInfo={routeInfo}
-                  fetchedAdreses={fetchedAdreses}
-                  inputPlaceholder={inputPlaceholder}
-                  handleInput={handleInput}
-                  handleKeyDown={handleKeyDown}
-                  handleClick={handleClick}
-                />
-              ))}
-              <RouteInfo routeSummary={routeSummary} />
-            </Stack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <AppInterfaceMobile isOpen={isOpen} onClose={onClose} btnRef={btnRef}>
+        <Stack spacing={4}>
+          {routeInfo.map(({ id, adress }, index) => (
+            <AppInput
+              id={id}
+              adress={adress}
+              index={index}
+              currentActiveInputId={currentActiveInputId}
+              routeInfo={routeInfo}
+              fetchedAdreses={fetchedAdreses}
+              inputPlaceholder={inputPlaceholder}
+              handleInput={handleInput}
+              handleKeyDown={handleKeyDown}
+              handleClick={handleClick}
+            />
+          ))}
+          <RouteInfo routeSummary={routeSummary} />
+        </Stack>
+      </AppInterfaceMobile>
     </>
   );
 };

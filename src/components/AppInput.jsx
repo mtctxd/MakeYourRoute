@@ -17,7 +17,6 @@ const AppInput = ({
 }) => (
   <div
     ref={currentActiveInputId === id ? rootEl : null}
-    key={id}
     className="app__form-input-container"
     onFocusCapture={resetFetchedAdreses}
   >

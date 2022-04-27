@@ -7,4 +7,4 @@
 - [ ] error warnings when location not found (check data on input)
 - [ ] add select current location and fetch data to get starting point
 - [ ] add via points
-- [ ] cost headers and input anotations
+- [x] cost headers and input anotations

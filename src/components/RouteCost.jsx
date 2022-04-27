@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Input, Stack } from '@chakra-ui/react';
+import { Button, Input, Stack } from '@chakra-ui/react';
 import {
   DEFAULT_COST_MULTIPLIER,
   DEFAULT_COST_PER_KILOMETER,
 } from '../constants';
+import generatePDF from '../features/generatePDF';
 
 const RouteCost = ({ routeSummary }) => {
   const {
@@ -40,7 +41,9 @@ const RouteCost = ({ routeSummary }) => {
   );
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={4} id='routeCost'>
+      
+      <Button colorScheme="blue" onClick={() => generatePDF('routeCost')}>Get route cost in PFD</Button>
       <div className="route-info__cost-input-container">
         <label htmlFor="cost-costPerKilometer">Cost per kilometr</label>
         <Input

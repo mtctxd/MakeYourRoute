@@ -18,7 +18,7 @@ const AppInterfaceMobile = ({ children, isOpen, onClose, btnRef }) => {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>MakeYourRout</DrawerHeader>
+        <DrawerHeader>MakeYourRoute</DrawerHeader>
 
         <DrawerBody>{children}</DrawerBody>
       </DrawerContent>

@@ -3,6 +3,7 @@
 
 ## Technologies i used
 - react
+- react-router
 - chakra-ui as ui framework
 - leaflet for map
 - leaflet-routing-machine for routing

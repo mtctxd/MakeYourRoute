@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 import './App.css';
 
-import { Map, AppInterface } from './components';
+import AppInterface from './components/AppInterface';
+import Map from './components/Map';
 
 const initialRouteInfo = [
   {

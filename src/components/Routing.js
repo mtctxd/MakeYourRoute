@@ -33,6 +33,8 @@ const Routing = ({ routeInfo, setRouteSummary, setPageError }) => {
 
     routingControl.on('routingerror', (e) => setPageError(e));
 
+    routingControl.on('routeselected', (e) => console.log(e));
+
     return () => map.removeControl(routingControl);
   }, [map, routeInfo]);
 
